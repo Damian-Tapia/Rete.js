@@ -1,12 +1,19 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { AfterViewInit, Component, ElementRef, Injector, ViewChild } from '@angular/core'
+
+import { createEditor } from './rete'
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css', './common.css']
 })
-export class AppComponent {
-  title = 'rete-test';
+export class AppComponent implements AfterViewInit {
+  title = 'angular'
+  @ViewChild('rete') container!: ElementRef<HTMLElement>
+
+  constructor(private injector: Injector) { }
+
+  async ngAfterViewInit() {
+    await createEditor(this.container.nativeElement, this.injector)
+  }
 }
