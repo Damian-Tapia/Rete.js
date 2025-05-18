@@ -46,8 +46,8 @@ class Connection<A extends Node, B extends Node> extends Classic.Connection<
 > {}
 
 class NumberNode extends Classic.Node implements DataflowNode {
-  width = 180;
-  height = 120;
+  width = 200;
+  height = 200;
 
   constructor(initial: number, change?: (value: number) => void) {
     super('Number');
@@ -113,7 +113,7 @@ export async function createEditor(container: HTMLElement, injector: Injector) {
 
   const angularRender = new AngularPlugin<Schemes, AreaExtra>({ injector });
 
-  const readonly = new ReadonlyPlugin<Schemes>();
+  // const readonly = new ReadonlyPlugin<Schemes>();
   const contextMenu = new ContextMenuPlugin<Schemes>({
     items: ContextMenuPresets.classic.setup([
       ['Number', () => new NumberNode(1, process)],
@@ -123,9 +123,9 @@ export async function createEditor(container: HTMLElement, injector: Injector) {
   const minimap = new MinimapPlugin<Schemes>();
   const reroutePlugin = new ReroutePlugin<Schemes>();
 
-  editor.use(readonly.root);
+  // editor.use(readonly.root);
   editor.use(area);
-  area.use(readonly.area);
+  // area.use(readonly.area);
   area.use(reactRender);
 
   area.use(angularRender);
@@ -235,7 +235,7 @@ export async function createEditor(container: HTMLElement, injector: Injector) {
 
   process();
 
-  readonly.enable();
+  // readonly.enable();
 
   return {
     destroy: () => area.destroy(),

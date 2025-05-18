@@ -6,8 +6,6 @@ import {
   Presets as ConnectionPresets,
 } from 'rete-connection-plugin';
 
-import { createRoot } from 'react-dom/client';
-
 import {
   AngularPlugin,
   AngularArea2D,
@@ -31,9 +29,10 @@ const socket = new ClassicPreset.Socket('socket');
 export async function createEditor(container: HTMLElement, injector: Injector) {
   const editor = new NodeEditor<Schemes>();
   const area = new AreaPlugin<Schemes, AreaExtra>(container);
+  const angularRender = new AngularPlugin<Schemes, AreaExtra>({ injector });
   const connection = new ConnectionPlugin<Schemes, AreaExtra>();
 
-  const angularRender = new AngularPlugin<Schemes, AreaExtra>({ injector });
+  connection.addPreset(ConnectionPresets.classic.setup());
 
   AreaExtensions.selectableNodes(area, AreaExtensions.selector(), {
     accumulating: AreaExtensions.accumulateOnCtrl(),
@@ -83,6 +82,7 @@ export async function createEditor(container: HTMLElement, injector: Injector) {
   await area.translate(b.id, { x: 300, y: 0 });
 
   await editor.addConnection(new ClassicPreset.Connection(a, 'a', b, 'a'));
+  area.use(angularRender);
 
   setTimeout(() => {
     AreaExtensions.zoomAt(area, editor.getNodes());
@@ -90,5 +90,7 @@ export async function createEditor(container: HTMLElement, injector: Injector) {
 
   return {
     destroy: () => area.destroy(),
+    editor
   };
+
 }
