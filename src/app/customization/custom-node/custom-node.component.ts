@@ -8,9 +8,10 @@ import {
 import { ClassicPreset } from 'rete';
 import { CommonModule } from '@angular/common';
 import { RefDirective } from 'rete-angular-plugin/19';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  imports: [CommonModule, RefDirective],
+  imports: [CommonModule, RefDirective, FormsModule],
   templateUrl: './custom-node.component.html',
   styleUrls: ['./custom-node.component.sass'],
   host: {
@@ -23,6 +24,7 @@ export class CustomNodeComponent implements OnChanges {
   @Input() rendered!: () => void;
 
   seed = 0;
+  text: string = '';
 
   @HostBinding('class.selected') get selected() {
     return this.data.selected;
@@ -36,6 +38,10 @@ export class CustomNodeComponent implements OnChanges {
     this.cdr.detectChanges();
     requestAnimationFrame(() => this.rendered());
     this.seed++; // force render sockets
+    // Si el nodo tiene un valor inicial, lo carga
+    if (this.data && (this.data as any).text !== undefined) {
+      this.text = (this.data as any).text;
+    }
   }
 
   sortByIndex(a: any, b: any) {

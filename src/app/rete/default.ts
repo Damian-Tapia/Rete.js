@@ -33,6 +33,8 @@ import {
   RerouteExtensions,
 } from 'rete-connection-reroute-plugin';
 import { CustomConnectionComponent } from '../customization/custom-connection/custom-connection.component';
+import { CustomNodeComponent } from '../customization/custom-node/custom-node.component';
+import { CustomSocketComponent } from '../customization/custom-socket/custom-socket.component';
 
 type Node = NumberNode | AddNode;
 type Conn =
@@ -141,8 +143,14 @@ export async function createEditor(container: HTMLElement, injector: Injector) {
   angularRender.addPreset(
     AngularPresets.classic.setup({
       customize: {
+        node() {
+          return CustomNodeComponent;
+        },
         connection() {
           return CustomConnectionComponent;
+        },
+        socket() {
+          return CustomSocketComponent;
         }
       }
     })

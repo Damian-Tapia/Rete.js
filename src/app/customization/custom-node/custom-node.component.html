@@ -1,4 +1,14 @@
 <div class="title" data-testid="title">{{data.label}}</div>
+
+<!-- Custom textarea editable and resizable -->
+<textarea
+  class="custom-textarea"
+  [(ngModel)]="text"
+  (ngModelChange)="emit({ type: 'change', node: data, value: $event })"
+  rows="3"
+  spellcheck="false"
+></textarea>
+
 <div class="output" *ngFor="let output of data.outputs | keyvalue: sortByIndex"
   [attr.data-testid]="'output-'+output.key">
   <div class="output-title" data-testid="output-title">
