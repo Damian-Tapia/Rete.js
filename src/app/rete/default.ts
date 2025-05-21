@@ -32,6 +32,7 @@ import {
   RerouteExtra,
   RerouteExtensions,
 } from 'rete-connection-reroute-plugin';
+import { CustomConnectionComponent } from '../customization/custom-connection/custom-connection.component';
 
 type Node = NumberNode | AddNode;
 type Conn =
@@ -136,25 +137,16 @@ export async function createEditor(container: HTMLElement, injector: Injector) {
 
   angularRender.use(reroutePlugin);
 
-  reactRender.addPreset(ReactPresets.classic.setup());
-  reactRender.addPreset(ReactPresets.contextMenu.setup());
-  reactRender.addPreset(ReactPresets.minimap.setup());
-  reactRender.addPreset(
-    ReactPresets.reroute.setup({
-      contextMenu(id) {
-        reroutePlugin.remove(id);
-      },
-      translate(id, dx, dy) {
-        reroutePlugin.translate(id, dx, dy);
-      },
-      pointerdown(id) {
-        reroutePlugin.unselect(id);
-        reroutePlugin.select(id);
-      },
+  // Elimina el preset classic por defecto para conexiones y usa solo el custom
+  angularRender.addPreset(
+    AngularPresets.classic.setup({
+      customize: {
+        connection() {
+          return CustomConnectionComponent;
+        }
+      }
     })
   );
-
-  angularRender.addPreset(AngularPresets.classic.setup());
   angularRender.addPreset(AngularPresets.contextMenu.setup());
   angularRender.addPreset(AngularPresets.minimap.setup());
   angularRender.addPreset(

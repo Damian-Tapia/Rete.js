@@ -5,7 +5,7 @@ import { ClassicPreset } from "rete";
   selector: "connection",
   template: `
     <svg data-testid="connection">
-      <path [attr.d]="path" />
+      <path [attr.d]="path" class="animated-connection" />
     </svg>
   `,
   styleUrls: ["./custom-connection.component.sass"]

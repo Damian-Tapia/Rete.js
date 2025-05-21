@@ -6,8 +6,15 @@ svg
   position: absolute
   pointer-events: none
   width: 600px
-  path
+  .animated-connection
     fill: none
     stroke-width: 5px
-    stroke:red
+    stroke: #800080 
+    stroke-dasharray: 10, 10
+    stroke-linecap: round
     pointer-events: auto
+    animation: dashmove 1s linear infinite
+
+@keyframes dashmove
+  to
+    stroke-dashoffset: -20
