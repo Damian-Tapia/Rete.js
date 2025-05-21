@@ -175,26 +175,58 @@ export async function createEditor(container: HTMLElement, injector: Injector) {
   const dataflow = new DataflowEngine<Schemes>();
 
   editor.use(dataflow);
-
+  /*
+  Se inicializan los nodos 
   const a = new NumberNode(1, process);
   const b = new NumberNode(1, process);
   const add = new AddNode();
-
+  2 con inputs de type number y un nodo donde se procesa la suma y despliega el resultado
+  */
+  const a = new NumberNode(1, process);
+  const b = new NumberNode(1, process);
+  const add = new AddNode();
+/* 
+  Aqui se añaden a la interfaz
+    await editor.addNode(a);
+    await editor.addNode(b);
+    await editor.addNode(add);
+*/
   await editor.addNode(a);
   await editor.addNode(b);
   await editor.addNode(add);
-
+/* 
+  Conexion automatica de los nodos
+  await editor.addConnection(new Connection(a, 'value', add, 'a'));
+  await editor.addConnection(new Connection(b, 'value', add, 'b'));
+*/
   await editor.addConnection(new Connection(a, 'value', add, 'a'));
   await editor.addConnection(new Connection(b, 'value', add, 'b'));
 
+  /*Arrange es un plugin nativo que auto organiza los nodos por ti, importante ya que inhibe la posibilidad que el usuario mueva con el mouse los nodos 
+    area.use(arrange);
+    arrange.addPreset(ArrangePresets.classic.setup());
+    
+    await arrange.layout();
+
+    !USAR ESTE PLUGIN SOBRE ESCRIBE CUALQUIER POSICION ASIGNADA ANTERIORMENTE!
+  */
   const arrange = new AutoArrangePlugin<Schemes>();
 
   arrange.addPreset(ArrangePresets.classic.setup());
 
   area.use(arrange);
 
+  /*
+  comentando esta linea nos deshacemos del auto layout
   await arrange.layout();
+  */
 
+
+  /* 
+  En esta area se utiliza 
+    AreaExtensions.selectableNodes(area, selector, { accumulating });
+  Con el fin de poder hacer drag & move de los nodos
+  */
   AreaExtensions.zoomAt(area, editor.getNodes());
 
   AreaExtensions.simpleNodesOrder(area);

@@ -1,3 +1,9 @@
+/*
+  .fill-area determina las medidas del layout
+  se recomiendan mantener proporciones grandes para no tener roturas visuales o brincos a la hora de editar posiciones
+*/
+
+
 .fill-area {
   display: table;
   z-index: -1;
